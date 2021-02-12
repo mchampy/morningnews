@@ -3,8 +3,9 @@ import './App.css';
 import { List, Avatar } from 'antd';
 import Nav from './Nav'
 import { Link } from 'react-router-dom';
+import {connect} from 'react-redux';
 
-function ScreenSource() {
+function ScreenSource(props) {
 
   const [sourceList, setSourceList] = useState([]);
 
@@ -15,12 +16,14 @@ function ScreenSource() {
   async function getSource() {
     var rawSource = await fetch('https://newsapi.org/v2/sources?language=fr&apiKey=55f864e8b0fe4f91ad6d6f6f51941fd8');;
     var responseSource = await rawSource.json();
+    props.onFlagClick('fr')
     setSourceList(responseSource.sources)
   }
 
   async function getSourceAnglaise() {
             var rawSource = await fetch('https://newsapi.org/v2/sources?language=en&apiKey=55f864e8b0fe4f91ad6d6f6f51941fd8');;
             var responseSource = await rawSource.json();
+            props.onFlagClick('gb')
             setSourceList(responseSource.sources)
           }
 
@@ -56,4 +59,16 @@ function ScreenSource() {
   );
 }
 
-export default ScreenSource;
+const mapStateToProps = (state) => {
+  return { token: state.token, sourceCountry: state.source };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFlagClick: (country) => {
+      dispatch({ type: "changeSources", country });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ScreenSource);

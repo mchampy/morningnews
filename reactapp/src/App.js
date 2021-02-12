@@ -7,11 +7,13 @@ import ScreenSource from './ScreenSource';
 import ScreenArticlesBySource from './ScreenArticlesBySource';
 
 import articleList from './reducers/article.reducer';
+import source from './reducers/source.reducer';
 import tokenName from './reducers/token.reducer';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
-const store = createStore(combineReducers({articleList, tokenName}));
-
+const store = createStore(combineReducers({articleList, tokenName, source}), 
+window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 function App() {
   return (

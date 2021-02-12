@@ -73,5 +73,18 @@ router.get('/sign-in', async function (req, res, next) {
   res.json({ userFound, result, error, token })
 });
 
+/* Enregistrer Wishlist dans BDD. */
+router.post('/save-article', async function (req, res, next) {
+
+try {// idem que si on faisait const article = req.body.article pour décomposer 
+const {newArticle, token} = req.body
+var user = await userModel.updateOne(
+{token}, { $push: { article: newArticle } }
+)
+  res.json({user})}
+catch (error) {res.json(error.message)}
+
+});
+
 
 module.exports = router;

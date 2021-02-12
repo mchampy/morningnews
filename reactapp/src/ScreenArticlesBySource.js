@@ -70,7 +70,7 @@ function ScreenArticlesBySource(props) {
                 <>
                     <Icon type="read" key="ellipsis2" onClick={() => showModal(article.title , article.content)}/>
                 </>,
-                    <Icon type="like" key="ellipsis" onClick={() => {props.addToWishList(article)}} />
+                    <Icon type="like" key="ellipsis" onClick={() => {props.addToWishList(article, props.token)}} />
                 ]}
                 >
 
@@ -95,18 +95,21 @@ function ScreenArticlesBySource(props) {
 )
 };
 
+const mapStateToProps = (state) => {
+  return { token: state.token, sourceCountry: state.source };
+};
 
 function mapDispatchToProps(dispatch) {
   return {
-    addToWishList: function(article) {
+    addToWishList: function(article, token) {
 
-      dispatch( {type: 'addArticle', articleLiked: article})
+      dispatch( {type: 'addArticle', articleLiked: {article, token}})
   }
 }
 }
 
 export default connect(
-    null, 
+    mapStateToProps, 
     mapDispatchToProps
 )(ScreenArticlesBySource);
 
